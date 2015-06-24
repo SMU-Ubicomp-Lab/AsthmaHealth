@@ -199,6 +199,23 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Sd-28-6MX">
                                 <rect key="frame" x="16" y="30" width="288" height="250"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYn-Dc-xxy">
+                                        <rect key="frame" x="8" y="43" width="153" height="30"/>
+                                        <state key="normal" title="Start">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="testControlButtonPressed:" destination="f4H-hZ-zdU" eventType="touchUpInside" id="uoI-d7-9cP"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Click Start to begin test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAA-oc-7Q2">
+                                        <rect key="frame" x="8" y="100" width="245" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="qhr-uH-NPq"/>
@@ -208,7 +225,7 @@
                                 <rect key="frame" x="16" y="308" width="288" height="250"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWX-3C-cVq">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWX-3C-cVq">
                                 <rect key="frame" x="16" y="277" width="32" height="30"/>
                                 <state key="normal" title="Next">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -229,6 +246,11 @@
                             <constraint firstItem="yPs-iU-q4g" firstAttribute="height" secondItem="0Sd-28-6MX" secondAttribute="height" id="zLD-jY-xIr"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="feedbackLabel" destination="pAA-oc-7Q2" id="vVx-WG-Zb3"/>
+                        <outlet property="nextButton" destination="DWX-3C-cVq" id="rCZ-lO-K9q"/>
+                        <outlet property="testControlButton" destination="GYn-Dc-xxy" id="SRv-0w-4e3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gce-TF-UId" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -10,7 +10,19 @@
 
 
 @interface SMUSpiroInitialViewController ()
-@property (strong, nonatomic) SpirometerEffortAnalyzer *spiro;
+{
+    BOOL testStarted;
+}
+// our model of the spirometry analysis for one effort
+@property (strong, nonatomic) SpirometerEffortAnalyzer* spiro;
+
+// Used to stored the flow data, and send it via email.
+@property (strong, nonatomic) NSDictionary *buffer;
+
+// UI
+@property (weak, nonatomic) IBOutlet UILabel *feedbackLabel;
+@property (weak, nonatomic) IBOutlet UIButton *testControlButton;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
 
 @end
 
@@ -19,13 +31,45 @@
     [self.delegate stepViewController:self didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionForward];
     
 }
+- (IBAction)testControlButtonPressed:(id)sender {
+    if(testStarted == YES)
+    {
+        // cancel effort
+        testStarted = NO;
+        [self.testControlButton setTitle:@"Start" forState:UIControlStateNormal];
+        [self.spiro requestThatCurrentEffortShouldCancel];
+        
+        
+    }
+    else // start effort
+    {
+        self.feedbackLabel.text = @"Calibrating sound, please remain silent...";
+        testStarted = YES;
+        [self.testControlButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [self.spiro beginListeningForEffort];
+        
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    testStarted = NO;
+    
+    
     self.spiro = [[SpirometerEffortAnalyzer alloc] init];
     self.spiro.delegate = self;
+    self.spiro.prefferredAudioMaxUpdateIntervalInSeconds = 1.0/24.0; // the default is 30FPS, so setting lower
+    // the FPS possible on this depends on the audio buffer size and sampling rate, which is different for different phones
+    // most likely this has a maximum update rate of about 100 FPS
+    
+    self.buffer = @{};
+    
+    [self.spiro askPermissionToUseAudioIfNotDone];
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,7 +77,68 @@
     // Dispose of any resources that can be recreated.
 }
 
-# pragma mark SpirometerDelegate Methods
+- (void)endTest {
+    testStarted = NO;
+    [self.testControlButton setTitle:@"Cancel" forState:UIControlStateNormal];
+}
+
+#pragma mark SpirometerDelegate Methods
+// all delegate methods are called from the main queue for UI updates
+// as such, you should add the operation to another queue if it is not UI related
+-(void)didFinishCalibratingSilence{
+    self.feedbackLabel.text = @"Inhale deeply ...and blast out air when ready!";
+}
+
+-(void)didTimeoutWaitingForTestToStart{
+    self.feedbackLabel.text = @"No exhale heard, effort canceled";
+}
+
+-(void)didStartExhaling{
+    self.feedbackLabel.text = @"Keep blasting!!";
+}
+
+-(void)willEndTestSoon{
+    self.feedbackLabel.text = @"Try to push last air out!! Go, Go, Go!";
+}
+
+-(void)didCancelEffort{
+    self.feedbackLabel.text = @"Effort Cancelled";
+    testStarted = NO;
+    [self.testControlButton setTitle:@"Start" forState:UIControlStateNormal];
+    
+}
+
+
+-(void)didEndEffortWithResults:(NSDictionary*)results{
+    // right now results are an empty dictionary
+    // in the future the results of the effort will all be stored as key/value pairs
+    NSLog(@"%@",results);
+    self.feedbackLabel.text = @"Effort Complete. Thanks!";
+    
+    self.buffer = results; // save data for sensing to the user
+    
+    self.nextButton.enabled = YES;
+    
+    
+}
+
+-(void)didUpdateFlow:(float)flow andVolume:(float)volume{
+    // A calibrated flow measurement that will come back dynamically and some time after the flow is detected
+    // flow and volume are just placeholders right now
+    // the value of "flow" will change, but it is not converted to an actual flow rate yet
+    // volume is always zero right now
+    
+    //self.flowSlider.value = flow; // watch it jump around when updated
+    NSLog(@"%@",[NSString stringWithFormat:@"Flow: %.2f",flow]);
+    
+}
+
+-(void)didUpdateAudioBufferWithMaximum:(float)maxAudioValue{
+    // once silence has been calibrated, you will start getting this message
+    // This happens many times per second, depending on the preferred time interval (default is 30 times per scond)
+    // for updating a game UI quickly, this is the better option but does not give you a valid flow rate
+    NSLog(@"Audio Max: %.4f", maxAudioValue);
+}
 
 
 

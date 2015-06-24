@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <APCAppCore/APCAppCore.h>
-#import "../../OpenSpirometry/OpenSpirometry/SpirometerEffortAnalyzer.h"
+#import "SpirometerEffortAnalyzer.h"
 
 
 @interface SMUSpiroInitialViewController : APCStepViewController <SpirometerEffortDelegate>
