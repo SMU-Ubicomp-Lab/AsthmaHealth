@@ -35,8 +35,7 @@
     if(testStarted == YES)
     {
         // cancel effort
-        testStarted = NO;
-        [self.testControlButton setTitle:@"Start" forState:UIControlStateNormal];
+        [self endTest];
         [self.spiro requestThatCurrentEffortShouldCancel];
         
         
@@ -44,8 +43,7 @@
     else // start effort
     {
         self.feedbackLabel.text = @"Calibrating sound, please remain silent...";
-        testStarted = YES;
-        [self.testControlButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [self startTest];
         [self.spiro beginListeningForEffort];
         
     }
@@ -56,6 +54,9 @@
     // Do any additional setup after loading the view.
     
     testStarted = NO;
+    
+    self.feedbackLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.feedbackLabel.numberOfLines = 0;
     
     
     self.spiro = [[SpirometerEffortAnalyzer alloc] init];
@@ -77,8 +78,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark Methods to update UI
 - (void)endTest {
     testStarted = NO;
+    [self.testControlButton setTitle:@"Start" forState:UIControlStateNormal];
+}
+
+- (void)startTest {
+    testStarted = YES;
     [self.testControlButton setTitle:@"Cancel" forState:UIControlStateNormal];
 }
 
@@ -91,6 +98,7 @@
 
 -(void)didTimeoutWaitingForTestToStart{
     self.feedbackLabel.text = @"No exhale heard, effort canceled";
+    [self endTest];
 }
 
 -(void)didStartExhaling{
@@ -103,8 +111,7 @@
 
 -(void)didCancelEffort{
     self.feedbackLabel.text = @"Effort Cancelled";
-    testStarted = NO;
-    [self.testControlButton setTitle:@"Start" forState:UIControlStateNormal];
+    [self endTest];
     
 }
 
@@ -117,6 +124,7 @@
     
     self.buffer = results; // save data for sensing to the user
     
+    [self endTest];
     self.nextButton.enabled = YES;
     
     

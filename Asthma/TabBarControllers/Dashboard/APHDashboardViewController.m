@@ -155,12 +155,36 @@ NSString *const kDataNotAvailable = @"N/A";
     }
     
     {
-        self.peakScore = [[APCScoring alloc] initWithTask:@"DailyPrompt-27829fa5-d731-4372-ba30-a5859f655297"
-                                              numberOfDays:-kNumberOfDaysToDisplay
-                                                  valueKey:kPeakFlowKey
-                                                   dataKey:nil
-                                                  sortKey:nil
-                                               groupBy:APHTimelineGroupDay];
+        HKHealthStore *healthStore = [[HKHealthStore alloc] init];
+        // "Share" (read/write) spirometry measurements (FVC, FEV1, PEF)
+        NSSet *spirometryObjectTypes = [NSSet setWithObjects:
+                                        [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity],
+                                        [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedExpiratoryVolume1],
+                                        [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeakExpiratoryFlowRate],
+                                        nil];
+        
+        
+        
+        // Request access
+        [healthStore requestAuthorizationToShareTypes:spirometryObjectTypes
+                                                 readTypes:spirometryObjectTypes
+                                                completion:^(BOOL success, NSError *error) {
+                                                    
+                                                    if(success == YES)
+                                                    {
+                                                        // ...
+                                                        NSLog(@"Authorization success");
+                                                    }
+                                                    else
+                                                    {
+                                                        NSLog(@"Problem with authorization: %@", error);
+                                                    }
+                                                    
+                                                }];
+        
+        HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity];
+        self.peakScore = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity unit:[HKUnit literUnit] numberOfDays:-kNumberOfDaysToDisplay];
+        
     }
     
 }

@@ -74,6 +74,7 @@
 		A40A89EE1B39A4E7007BBBA5 /* PeakFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = A40A89E31B39A4E7007BBBA5 /* PeakFinder.m */; };
 		A40A89EF1B39A4E7007BBBA5 /* SpirometerEffortAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = A40A89E61B39A4E7007BBBA5 /* SpirometerEffortAnalyzer.m */; };
 		A40A89F01B39A4E7007BBBA5 /* SpirometryWhistle.m in Sources */ = {isa = PBXBuildFile; fileRef = A40A89E81B39A4E7007BBBA5 /* SpirometryWhistle.m */; };
+		A41A7A1C1B4316A000617C4C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A41A7A1B1B4316A000617C4C /* HealthKit.framework */; };
 		A4FDB9EC1B31D14F00787D7B /* ForcedExpirationTest.json in Resources */ = {isa = PBXBuildFile; fileRef = A4FDB9EB1B31D14F00787D7B /* ForcedExpirationTest.json */; };
 		A4FDB9FF1B3210C800787D7B /* SMUSpiroLearnMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FDB9FE1B3210C800787D7B /* SMUSpiroLearnMoreViewController.m */; };
 		A4FDBA021B3210D400787D7B /* SMUSpiroSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FDBA011B3210D400787D7B /* SMUSpiroSettingsViewController.m */; };
@@ -92,7 +93,6 @@
 		CFCA43B919F5C96C00D68EEE /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCA43B619F5C96C00D68EEE /* AVFoundation.framework */; };
 		CFCA43BA19F5C96C00D68EEE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCA43B719F5C96C00D68EEE /* CoreData.framework */; };
 		CFCA43BB19F5C96C00D68EEE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCA43B819F5C96C00D68EEE /* Security.framework */; };
-		CFCA43BD19F5C98800D68EEE /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCA43BC19F5C98800D68EEE /* HealthKit.framework */; };
 		CFE623BE19FAD114001BFF5A /* SleepSurvey.json in Resources */ = {isa = PBXBuildFile; fileRef = CFE623BD19FAD114001BFF5A /* SleepSurvey.json */; };
 		F5192D361A34AC2A00A5CF3D /* APHAsthmaBadgesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F5192D351A34AC2A00A5CF3D /* APHAsthmaBadgesObject.m */; };
 		F5192D3A1A34C6D300A5CF3D /* APHConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F5192D391A34C6D300A5CF3D /* APHConstants.m */; };
@@ -323,6 +323,7 @@
 		A40A89E61B39A4E7007BBBA5 /* SpirometerEffortAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpirometerEffortAnalyzer.m; sourceTree = "<group>"; };
 		A40A89E71B39A4E7007BBBA5 /* SpirometryWhistle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpirometryWhistle.h; sourceTree = "<group>"; };
 		A40A89E81B39A4E7007BBBA5 /* SpirometryWhistle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpirometryWhistle.m; sourceTree = "<group>"; };
+		A41A7A1B1B4316A000617C4C /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		A4FDB9EB1B31D14F00787D7B /* ForcedExpirationTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ForcedExpirationTest.json; sourceTree = "<group>"; };
 		A4FDB9FD1B3210C800787D7B /* SMUSpiroLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMUSpiroLearnMoreViewController.h; path = ../../SMUSpiroLearnMoreViewController.h; sourceTree = "<group>"; };
 		A4FDB9FE1B3210C800787D7B /* SMUSpiroLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMUSpiroLearnMoreViewController.m; path = ../../SMUSpiroLearnMoreViewController.m; sourceTree = "<group>"; };
@@ -346,7 +347,6 @@
 		CFCA43B619F5C96C00D68EEE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CFCA43B719F5C96C00D68EEE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CFCA43B819F5C96C00D68EEE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		CFCA43BC19F5C98800D68EEE /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		CFE623BD19FAD114001BFF5A /* SleepSurvey.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SleepSurvey.json; sourceTree = "<group>"; };
 		F5192D341A34AC2A00A5CF3D /* APHAsthmaBadgesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APHAsthmaBadgesObject.h; sourceTree = "<group>"; };
 		F5192D351A34AC2A00A5CF3D /* APHAsthmaBadgesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APHAsthmaBadgesObject.m; sourceTree = "<group>"; };
@@ -370,10 +370,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFCA43BD19F5C98800D68EEE /* HealthKit.framework in Frameworks */,
 				74EF8DDC1ABEF5A7001B47E1 /* BridgeSDK.framework in Frameworks */,
 				74EF8DE41ABEF5AF001B47E1 /* ResearchKit.framework in Frameworks */,
 				CFCA43B919F5C96C00D68EEE /* AVFoundation.framework in Frameworks */,
+				A41A7A1C1B4316A000617C4C /* HealthKit.framework in Frameworks */,
 				CFCA43BA19F5C96C00D68EEE /* CoreData.framework in Frameworks */,
 				CFCA43BB19F5C96C00D68EEE /* Security.framework in Frameworks */,
 			);
@@ -699,13 +699,13 @@
 		CFCA43B519F5C8B200D68EEE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A41A7A1B1B4316A000617C4C /* HealthKit.framework */,
 				5CC3BD461B24909700FE79A8 /* OpenSpirometry.xcodeproj */,
 				743AD11C1ABEF36C0071C218 /* BridgeSDK.xcodeproj */,
 				6CC004671AC863460042B2B1 /* ResearchKit.xcodeproj */,
 				F5F12B3C1A2F88120015982C /* APCAppCore.xcodeproj */,
 				CFCA43B619F5C96C00D68EEE /* AVFoundation.framework */,
 				CFCA43B719F5C96C00D68EEE /* CoreData.framework */,
-				CFCA43BC19F5C98800D68EEE /* HealthKit.framework */,
 				CFCA43B819F5C96C00D68EEE /* Security.framework */,
 			);
 			name = Frameworks;
