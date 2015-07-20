@@ -75,6 +75,8 @@
 		A40A89EF1B39A4E7007BBBA5 /* SpirometerEffortAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = A40A89E61B39A4E7007BBBA5 /* SpirometerEffortAnalyzer.m */; };
 		A40A89F01B39A4E7007BBBA5 /* SpirometryWhistle.m in Sources */ = {isa = PBXBuildFile; fileRef = A40A89E81B39A4E7007BBBA5 /* SpirometryWhistle.m */; };
 		A41A7A1C1B4316A000617C4C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A41A7A1B1B4316A000617C4C /* HealthKit.framework */; };
+		A4ED74261B4B060300A9302D /* GraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ED74251B4B060300A9302D /* GraphTableViewCell.m */; };
+		A4ED74291B4C273300A9302D /* DanielViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ED74281B4C273300A9302D /* DanielViewController.m */; };
 		A4FDB9EC1B31D14F00787D7B /* ForcedExpirationTest.json in Resources */ = {isa = PBXBuildFile; fileRef = A4FDB9EB1B31D14F00787D7B /* ForcedExpirationTest.json */; };
 		A4FDB9FF1B3210C800787D7B /* SMUSpiroLearnMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FDB9FE1B3210C800787D7B /* SMUSpiroLearnMoreViewController.m */; };
 		A4FDBA021B3210D400787D7B /* SMUSpiroSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FDBA011B3210D400787D7B /* SMUSpiroSettingsViewController.m */; };
@@ -324,6 +326,10 @@
 		A40A89E71B39A4E7007BBBA5 /* SpirometryWhistle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpirometryWhistle.h; sourceTree = "<group>"; };
 		A40A89E81B39A4E7007BBBA5 /* SpirometryWhistle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpirometryWhistle.m; sourceTree = "<group>"; };
 		A41A7A1B1B4316A000617C4C /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		A4ED74241B4B060300A9302D /* GraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphTableViewCell.h; sourceTree = "<group>"; };
+		A4ED74251B4B060300A9302D /* GraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphTableViewCell.m; sourceTree = "<group>"; };
+		A4ED74271B4C273300A9302D /* DanielViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanielViewController.h; sourceTree = "<group>"; };
+		A4ED74281B4C273300A9302D /* DanielViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DanielViewController.m; sourceTree = "<group>"; };
 		A4FDB9EB1B31D14F00787D7B /* ForcedExpirationTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ForcedExpirationTest.json; sourceTree = "<group>"; };
 		A4FDB9FD1B3210C800787D7B /* SMUSpiroLearnMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMUSpiroLearnMoreViewController.h; path = ../../SMUSpiroLearnMoreViewController.h; sourceTree = "<group>"; };
 		A4FDB9FE1B3210C800787D7B /* SMUSpiroLearnMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMUSpiroLearnMoreViewController.m; path = ../../SMUSpiroLearnMoreViewController.m; sourceTree = "<group>"; };
@@ -386,6 +392,10 @@
 			isa = PBXGroup;
 			children = (
 				5B1D9D541A1BD046000F4AD6 /* APHDashboard.storyboard */,
+				A4ED74241B4B060300A9302D /* GraphTableViewCell.h */,
+				A4ED74251B4B060300A9302D /* GraphTableViewCell.m */,
+				A4ED74271B4C273300A9302D /* DanielViewController.h */,
+				A4ED74281B4C273300A9302D /* DanielViewController.m */,
 				5B1D9D571A1BD046000F4AD6 /* APHDashboardViewController.h */,
 				5B1D9D581A1BD046000F4AD6 /* APHDashboardViewController.m */,
 				6C6995C01A84234C001C557E /* APHCalendarCollectionViewController.h */,
@@ -987,6 +997,7 @@
 				6CB01B751A6EEC74003BFA39 /* QuizResultTableViewCell.m in Sources */,
 				A40A89ED1B39A4E7007BBBA5 /* Novocaine.m in Sources */,
 				7B3CBC981A76C6CC00DE27A4 /* APHEnrollmentIntroduction.m in Sources */,
+				A4ED74291B4C273300A9302D /* DanielViewController.m in Sources */,
 				6CF025131A68459D00073EA7 /* APHBooleanQuestionStep.m in Sources */,
 				A40A89E91B39A4E7007BBBA5 /* BufferedOverlapQueue.m in Sources */,
 				A4FDBA021B3210D400787D7B /* SMUSpiroSettingsViewController.m in Sources */,
@@ -1026,6 +1037,7 @@
 				CFCA433419F5B00200D68EEE /* main.m in Sources */,
 				5BB6473E19F6E34800AA30AA /* APHInclusionCriteriaViewController.m in Sources */,
 				A40A89EF1B39A4E7007BBBA5 /* SpirometerEffortAnalyzer.m in Sources */,
+				A4ED74261B4B060300A9302D /* GraphTableViewCell.m in Sources */,
 				5B1D9D5B1A1BD046000F4AD6 /* APHDashboardViewController.m in Sources */,
 				F5192D361A34AC2A00A5CF3D /* APHAsthmaBadgesObject.m in Sources */,
 			);

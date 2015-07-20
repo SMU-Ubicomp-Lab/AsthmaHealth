@@ -124,6 +124,8 @@
     
     self.buffer = results; // save data for sensing to the user
     
+    NSLog(@"%@", results);
+    
     [self endTest];
     self.nextButton.enabled = YES;
     
