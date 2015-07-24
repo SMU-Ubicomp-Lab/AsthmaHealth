@@ -111,9 +111,9 @@
                                            }];
         
         HKQuantityType *hkQuantity = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity];
-        //self.peakScore = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity unit:[HKUnit literUnit] numberOfDays:-kNumberOfDaysToDisplay];
-        NSLog(@"starting initwithdata");
-        self.peakScore = [[APCScoring alloc] initWithData:hkQuantity unit:[HKUnit literUnit] numberOfDays:-kNumberOfDaysToDisplay];
+        self.peakScore = [[APCScoring alloc] initWithHealthKitQuantityType:hkQuantity unit:[HKUnit literUnit] numberOfDays:-kNumberOfDaysToDisplay];
+        //NSLog(@"starting initwithdata");
+        //self.peakScore = [[APCScoring alloc] initWithData:hkQuantity unit:[HKUnit literUnit] numberOfDays:-kNumberOfDaysToDisplay];
         
         
     }

@@ -7,7 +7,12 @@
 //
 
 #import <APCAppCore/APCAppCore.h>
+#import "CorePlot-CocoaTouch.h"
+#import "CPDConstants.h"
+#import "CPDStockPriceStore.h"
 
-@interface SMUSpiroCompletionViewController : APCStepViewController
+@interface SMUSpiroCompletionViewController : APCStepViewController <CPTPlotDataSource>
+
+@property (nonatomic, strong) CPTGraphHostingView *hostView;
 
 @end

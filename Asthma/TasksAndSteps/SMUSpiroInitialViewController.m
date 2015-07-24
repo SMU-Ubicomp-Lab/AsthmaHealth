@@ -7,6 +7,8 @@
 //
 
 #import "SMUSpiroInitialViewController.h"
+#import "CPDConstants.h"
+#import "CPDStockPriceStore.h"
 
 
 @interface SMUSpiroInitialViewController ()
@@ -128,6 +130,8 @@
     
     [self endTest];
     self.nextButton.enabled = YES;
+    
+    [[CPDStockPriceStore sharedInstance] storeSpiroData:results]; // in order to pass results to the next view controller
     
     
 }
