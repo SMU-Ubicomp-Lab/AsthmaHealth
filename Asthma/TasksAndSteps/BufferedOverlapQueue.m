@@ -2,7 +2,7 @@
 //  BufferedOverlapQueue.m
 //  OpenSpirometry
 //
-//  Created by Eric Larson 
+//  Created by Eric Larson
 //  Copyright (c) 2015 Eric Larson. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 
 @interface BufferedOverlapQueue()
 
-@property (strong, nonatomic) NSMutableArray* overlapQueue;
+@property (strong, atomic) NSMutableArray* overlapQueue;
 @property (atomic) NSUInteger currentFillQueueIndex;
 
 @property (nonatomic,readwrite) NSUInteger numOverlapSamples;
@@ -67,44 +67,47 @@
     
     NSUInteger idx = 0;
     
-    if(numSamples > self.numSamplesPerBuffer){
-        // this only works for input data greater than BufferSize
-        for(int i=0; i<numSamples; i+=increment, idx++, dataCopyLength-=increment){
-            if(self.currentFillQueueIndex+idx >= [self.overlapQueue count]){ // add object if we need it
+    @synchronized(self){
+        
+        if(numSamples > self.numSamplesPerBuffer){
+            // this only works for input data greater than BufferSize
+            for(int i=0; i<numSamples; i+=increment, idx++, dataCopyLength-=increment){
+                if(self.currentFillQueueIndex+idx >= [self.overlapQueue count]){ // add object if we need it
+                    [self.overlapQueue addObject:[[DataBufferBlock alloc]initWithCapacity:self.numSamplesPerBuffer]];
+                }
+                [self addData:&data[i] withSize:dataCopyLength fromChannel:whichChannel withNumChannels:numChannels
+                toBufferBlock:self.overlapQueue[self.currentFillQueueIndex+idx]];
+            }
+        }else{
+            
+            // this only works for input data fewer than BufferSize
+            DataBufferBlock* block = [self.overlapQueue lastObject];
+            if(block.writePosition+numSamples>increment){ // need new entry
                 [self.overlapQueue addObject:[[DataBufferBlock alloc]initWithCapacity:self.numSamplesPerBuffer]];
             }
-            [self addData:&data[i] withSize:dataCopyLength fromChannel:whichChannel withNumChannels:numChannels
-            toBufferBlock:self.overlapQueue[self.currentFillQueueIndex+idx]];
-        }
-    }else{
-        
-        // this only works for input data fewer than BufferSize
-        DataBufferBlock* block = [self.overlapQueue lastObject];
-        if(block.writePosition+numSamples>increment){ // need new entry
-            [self.overlapQueue addObject:[[DataBufferBlock alloc]initWithCapacity:self.numSamplesPerBuffer]];
-        }
-        
-        // add given data to each block
-        for(DataBufferBlock* block in self.overlapQueue){
-            if(!block.isFull){
-                [self addData:data withSize:numSamples fromChannel:whichChannel withNumChannels:numChannels
-                toBufferBlock:block];
+            
+            // add given data to each block
+            for(DataBufferBlock* block in self.overlapQueue){
+                if(!block.isFull){
+                    [self addData:data withSize:numSamples fromChannel:whichChannel withNumChannels:numChannels
+                    toBufferBlock:block];
+                }
             }
         }
-    }
-    
-    // Update write position
-    idx = 0;
-    for(DataBufferBlock* block in self.overlapQueue){
-        if(block.isFull){
-            idx++;
+        
+        // Update write position
+        idx = 0;
+        for(DataBufferBlock* block in self.overlapQueue){
+            if(block.isFull){
+                idx++;
+            }
         }
-    }
-    self.currentFillQueueIndex = idx;
-    self.numFullBuffers = idx;
-    
-    if(idx>0) { //at least one buffer to process
-        [self didFillDataWrapper];
+        self.currentFillQueueIndex = idx;
+        self.numFullBuffers = idx;
+        
+        if(idx>0) { //at least one buffer to process
+            [self didFillDataWrapper];
+        }
     }
 }
 
@@ -117,7 +120,7 @@
 
 -(DataBufferBlock*)dequeueAndTakeOwnership{
     //TODO
-//    self.overlapQueue 
+    //    self.overlapQueue
     return nil;
 }
 
@@ -137,7 +140,7 @@
         [self.overlapQueue removeObjectAtIndex:0];
         self.currentFillQueueIndex--;
         self.numFullBuffers--;
-
+        
         if(delegateRespondsTo.didFillBuffer){
             // spin off the data into high priority queue, assuming that this data analysis needs run UI
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0),^{
@@ -154,12 +157,14 @@
 }
 
 -(void)processRemainingBlocks{
-    while(self.numFullBuffers >0){
-        // process until done
-        [self didFillDataWrapper];
+    @synchronized(self){
+        while(self.numFullBuffers >0){
+            // process until done
+            [self didFillDataWrapper];
+        }
+        //TODO: block here until completion?
+        [self clear]; // and clear any blocks that are not full
     }
-    //TODO: block here until completion?
-    [self clear]; // and clear any blocks that are not full
     
 }
 

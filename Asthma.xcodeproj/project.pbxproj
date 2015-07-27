@@ -80,6 +80,9 @@
 		A42DDB911B5D537200703C98 /* CPDConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A42DDB8E1B5D537200703C98 /* CPDConstants.m */; };
 		A42DDB921B5D537200703C98 /* CPDStockPriceStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A42DDB901B5D537200703C98 /* CPDStockPriceStore.m */; };
 		A42DDB941B5D7EF200703C98 /* spirodata in Resources */ = {isa = PBXBuildFile; fileRef = A42DDB931B5D7EF200703C98 /* spirodata */; };
+		A45BB9131B6292F500A2FC04 /* CircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = A45BB90F1B6292F500A2FC04 /* CircularBuffer.m */; };
+		A45BB9141B6292F500A2FC04 /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A45BB9111B6292F500A2FC04 /* RingBuffer.mm */; };
+		A45BB9151B6292F500A2FC04 /* VortexWhistleRed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A45BB9121B6292F500A2FC04 /* VortexWhistleRed.m4a */; };
 		A4ED74261B4B060300A9302D /* GraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ED74251B4B060300A9302D /* GraphTableViewCell.m */; };
 		A4ED74291B4C273300A9302D /* DanielViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ED74281B4C273300A9302D /* DanielViewController.m */; };
 		A4FDB9EC1B31D14F00787D7B /* ForcedExpirationTest.json in Resources */ = {isa = PBXBuildFile; fileRef = A4FDB9EB1B31D14F00787D7B /* ForcedExpirationTest.json */; };
@@ -416,6 +419,11 @@
 		A42DDB8F1B5D537200703C98 /* CPDStockPriceStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPDStockPriceStore.h; sourceTree = "<group>"; };
 		A42DDB901B5D537200703C98 /* CPDStockPriceStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPDStockPriceStore.m; sourceTree = "<group>"; };
 		A42DDB931B5D7EF200703C98 /* spirodata */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spirodata; sourceTree = "<group>"; };
+		A45BB90E1B6292F500A2FC04 /* CircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularBuffer.h; sourceTree = "<group>"; };
+		A45BB90F1B6292F500A2FC04 /* CircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircularBuffer.m; sourceTree = "<group>"; };
+		A45BB9101B6292F500A2FC04 /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
+		A45BB9111B6292F500A2FC04 /* RingBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RingBuffer.mm; sourceTree = "<group>"; };
+		A45BB9121B6292F500A2FC04 /* VortexWhistleRed.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = VortexWhistleRed.m4a; sourceTree = "<group>"; };
 		A4ED74241B4B060300A9302D /* GraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphTableViewCell.h; sourceTree = "<group>"; };
 		A4ED74251B4B060300A9302D /* GraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphTableViewCell.m; sourceTree = "<group>"; };
 		A4ED74271B4C273300A9302D /* DanielViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanielViewController.h; sourceTree = "<group>"; };
@@ -693,6 +701,11 @@
 		A40A89D71B39A4C7007BBBA5 /* SpiroAnalysisModel */ = {
 			isa = PBXGroup;
 			children = (
+				A45BB90E1B6292F500A2FC04 /* CircularBuffer.h */,
+				A45BB90F1B6292F500A2FC04 /* CircularBuffer.m */,
+				A45BB9101B6292F500A2FC04 /* RingBuffer.h */,
+				A45BB9111B6292F500A2FC04 /* RingBuffer.mm */,
+				A45BB9121B6292F500A2FC04 /* VortexWhistleRed.m4a */,
 				A40A89D81B39A4E7007BBBA5 /* BufferedOverlapQueue.h */,
 				A40A89D91B39A4E7007BBBA5 /* BufferedOverlapQueue.m */,
 				A40A89DA1B39A4E7007BBBA5 /* DataBufferBlock.h */,
@@ -1164,6 +1177,7 @@
 				F551E1131A2FD54E00397330 /* AsthmaDailyPrompt.json in Resources */,
 				6C13EE311A97D783003D10C9 /* AsthmaMedicationSurvey.json in Resources */,
 				A42DDB941B5D7EF200703C98 /* spirodata in Resources */,
+				A45BB9151B6292F500A2FC04 /* VortexWhistleRed.m4a in Resources */,
 				5B1D9D591A1BD046000F4AD6 /* APHDashboard.storyboard in Resources */,
 				5BB6479619F6E5B300AA30AA /* APCParameters.json in Resources */,
 				6C13EE2D1A97D77D003D10C9 /* MedicalHistory.json in Resources */,
@@ -1183,6 +1197,7 @@
 			files = (
 				6CBA91F01A927A4500A7E562 /* APHCalendarDataModel.m in Sources */,
 				F5B1F1B71A33CE1B00C377FB /* APHDailyTaskViewController.m in Sources */,
+				A45BB9131B6292F500A2FC04 /* CircularBuffer.m in Sources */,
 				6C3C6C661A64809300A1E390 /* APHConsentTaskViewController.m in Sources */,
 				6C1F53EF1A9550C50068F233 /* APHAirQualityDataModel.m in Sources */,
 				6CB01B7A1A6EF85C003BFA39 /* APHQuizTextViewTableViewCell.m in Sources */,
@@ -1225,6 +1240,7 @@
 				7423AB5F1AA40714004A325A /* APHConsentRedirector.m in Sources */,
 				F5192D3A1A34C6D300A5CF3D /* APHConstants.m in Sources */,
 				6CF0252B1A69C7F300073EA7 /* APHQuizEvaluationViewController.m in Sources */,
+				A45BB9141B6292F500A2FC04 /* RingBuffer.mm in Sources */,
 				A40A89EE1B39A4E7007BBBA5 /* PeakFinder.m in Sources */,
 				A40A89EB1B39A4E7007BBBA5 /* FFTHelper.m in Sources */,
 				5BBDAEEE1A35025D0047DF87 /* APHWebViewController.m in Sources */,

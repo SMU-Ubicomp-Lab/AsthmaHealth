@@ -69,8 +69,11 @@
     
     self.buffer = @{};
     
-    [self.spiro askPermissionToUseAudioIfNotDone];
     
+    // uncomment when done debugging
+    //[self.spiro askPermissionToUseAudioIfNotDone];
+    
+    [self.spiro activateDebugAudioModeWithWAVFile:nil];
     
     
 }

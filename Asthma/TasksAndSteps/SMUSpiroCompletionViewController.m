@@ -7,6 +7,7 @@
 //
 
 #import "SMUSpiroCompletionViewController.h"
+#include <stdlib.h>
 
 
 @interface SMUSpiroCompletionViewController ()
@@ -51,7 +52,7 @@
     [graph applyTheme:[CPTTheme themeNamed:kCPTSlateTheme]];
     self.hostView.hostedGraph = graph;
     // 2 - Set graph title
-    NSString *title = @"FlowCurveInLitersPerSecond";
+    NSString *title = @"Volume vs Time";
     graph.title = title;
     // 3 - Create and set text style
     CPTMutableTextStyle *titleStyle = [CPTMutableTextStyle textStyle];
@@ -94,6 +95,7 @@
     [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
+    //CPTMutablePlotRange *x = [[CPTMutablePlotRange alloc] initWithLocation:[NSDecimal numberWithDouble:1.0f] length:[NSDecimal numberWithDouble:100.0f]];
     plotSpace.xRange = xRange;
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
     [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
@@ -170,9 +172,9 @@
     NSMutableSet *xLabels = [NSMutableSet setWithCapacity:dateCount];
     NSMutableSet *xLocations = [NSMutableSet setWithCapacity:dateCount];
     NSInteger i = 0;
-    for (NSString *date in [[CPDStockPriceStore sharedInstance] datesInMonth]) {
-        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:date  textStyle:x.labelTextStyle];
-        CGFloat location = i++;
+    for (i=0; i<500; i+=30) {
+        CPTAxisLabel *label = [[CPTAxisLabel alloc] initWithText:[NSString stringWithFormat:@"%li",(long)i]  textStyle:x.labelTextStyle];
+        CGFloat location = i;
         label.tickLocation = CPTDecimalFromCGFloat(location);
         label.offset = x.majorTickLength;
         if (label) {
@@ -184,7 +186,7 @@
     x.majorTickLocations = xLocations;
     // 4 - Configure y-axis
     CPTAxis *y = axisSet.yAxis;
-    y.title = @"Flow";
+    y.title = @"Volume";
     y.titleTextStyle = axisTitleStyle;
     y.titleOffset = -40.0f;
     y.axisLineStyle = axisLineStyle;
@@ -228,30 +230,30 @@
 
 #pragma mark - CPTPlotDataSource methods
 -(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    //return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"FlowCurveInLitersPerSecond"] count];
-    return 100;
+    return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"] count];
+    //return 40;
 
 }
 
 -(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
-    NSInteger valueCount = [[[CPDStockPriceStore sharedInstance] datesInMonth] count];
+    //NSInteger valueCount = [[[CPDStockPriceStore sharedInstance] datesInMonth] count];
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
-            if (index < valueCount) {
-                return [NSNumber numberWithUnsignedInteger:index];
-            }
+            
+            return [NSNumber numberWithUnsignedInteger:index];
+            //return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"] objectAtIndex:index];
             break;
             
         case CPTScatterPlotFieldY:
             if ([plot.identifier isEqual:CPDTickerSymbolAAPL] == YES) {
-                //NSLog(@"getting FlowCurveInLitersPerSecond array from singleton");
-                //NSLog(@"%@", [[CPDStockPriceStore sharedInstance] storedResults]);
                 
-                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"FlowCurveInLitersPerSecond"];
+                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"];
                 
                 // NSString -> NSDecimalNumber
                 float valueForGraph = [[curve objectAtIndex:index] floatValue];
-                //NSLog(@"valueForGraphString %@ which is of type %@",valueForGraph, [valueForGraph class]);
+                int r = arc4random_uniform(2);
+                
+                //float valueForGraph = (r%2==0 ? 5.0f : 4.0f);
                 
                 NSDecimalNumber *dec = [NSDecimalNumber numberWithFloat:valueForGraph*100.0];
                 NSLog(@"%@",dec);
