@@ -80,10 +80,22 @@
     aaplPlot.identifier = CPDTickerSymbolAAPL;
     CPTColor *aaplColor = [CPTColor redColor];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
+    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
+    googPlot.dataSource = self;
+    googPlot.identifier = CPDTickerSymbolGOOG;
+    CPTColor *googColor = [CPTColor greenColor];
+    //[graph addPlot:googPlot toPlotSpace:plotSpace];
+    CPTScatterPlot *msftPlot = [[CPTScatterPlot alloc] init];
+    msftPlot.dataSource = self;
+    msftPlot.identifier = CPDTickerSymbolMSFT;
+    CPTColor *msftColor = [CPTColor blueColor];
+    //[graph addPlot:msftPlot toPlotSpace:plotSpace];
     // 3 - Set up plot space
+    //[plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, googPlot, msftPlot, nil]];
     [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
+    //CPTMutablePlotRange *x = [[CPTMutablePlotRange alloc] initWithLocation:[NSDecimal numberWithDouble:1.0f] length:[NSDecimal numberWithDouble:100.0f]];
     plotSpace.xRange = xRange;
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
     [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
@@ -100,6 +112,28 @@
     aaplSymbol.lineStyle = aaplSymbolLineStyle;
     aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
     aaplPlot.plotSymbol = aaplSymbol;
+    CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];
+    googLineStyle.lineWidth = 1.0;
+    googLineStyle.lineColor = googColor;
+    googPlot.dataLineStyle = googLineStyle;
+    CPTMutableLineStyle *googSymbolLineStyle = [CPTMutableLineStyle lineStyle];
+    googSymbolLineStyle.lineColor = googColor;
+    CPTPlotSymbol *googSymbol = [CPTPlotSymbol starPlotSymbol];
+    googSymbol.fill = [CPTFill fillWithColor:googColor];
+    googSymbol.lineStyle = googSymbolLineStyle;
+    googSymbol.size = CGSizeMake(6.0f, 6.0f);
+    googPlot.plotSymbol = googSymbol;
+    CPTMutableLineStyle *msftLineStyle = [msftPlot.dataLineStyle mutableCopy];
+    msftLineStyle.lineWidth = 2.0;
+    msftLineStyle.lineColor = msftColor;
+    msftPlot.dataLineStyle = msftLineStyle;
+    CPTMutableLineStyle *msftSymbolLineStyle = [CPTMutableLineStyle lineStyle];
+    msftSymbolLineStyle.lineColor = msftColor;
+    CPTPlotSymbol *msftSymbol = [CPTPlotSymbol diamondPlotSymbol];
+    msftSymbol.fill = [CPTFill fillWithColor:msftColor];
+    msftSymbol.lineStyle = msftSymbolLineStyle;
+    msftSymbol.size = CGSizeMake(6.0f, 6.0f);
+    msftPlot.plotSymbol = msftSymbol;
 }
 
 -(void)configureAxes {
