@@ -16,8 +16,8 @@ NSString *  const CPDThemeNamePlainWhite    = @"Plain White";
 NSString *  const CPDThemeNameSlate         = @"Slate";
 NSString *  const CPDThemeNameStocks        = @"Stocks";
 
-NSString *  const CPDTickerSymbolAAPL       = @"AAPL";
-NSString *  const CPDTickerSymbolGOOG       = @"GOOG";
-NSString *  const CPDTickerSymbolMSFT       = @"MSFT";
+NSString *  const FlowVsTime       = @"FlowCurveInLitersPerSecond";
+NSString *  const VolumeVsTime       = @"VolumeCurveInLiters";
+NSString *  const FlowVsVolume       = @"FlowVsVolume";
 
 @end

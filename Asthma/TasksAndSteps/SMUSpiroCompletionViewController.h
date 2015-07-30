@@ -11,7 +11,7 @@
 #import "CPDConstants.h"
 #import "CPDStockPriceStore.h"
 
-@interface SMUSpiroCompletionViewController : APCStepViewController <CPTPlotDataSource>
+@interface SMUSpiroCompletionViewController : APCStepViewController <CPTPlotDataSource, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) CPTGraphHostingView *hostView;
 

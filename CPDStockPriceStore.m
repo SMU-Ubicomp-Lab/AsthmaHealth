@@ -83,7 +83,7 @@
 
 - (NSArray *)weeklyPrices:(NSString *)tickerSymbol
 {
-    if ([CPDTickerSymbolAAPL isEqualToString:[tickerSymbol uppercaseString]] == YES)
+    /*if ([FlowVsTime isEqualToString:[tickerSymbol uppercaseString]] == YES)
     {
         return [self weeklyAaplPrices];
     }
@@ -94,7 +94,7 @@
     else if ([CPDTickerSymbolMSFT isEqualToString:[tickerSymbol uppercaseString]] == YES)
     {
         return [self weeklyMsftPrices];
-    }
+    }*/
     return [NSArray array];
 }
 
@@ -131,7 +131,7 @@
 
 - (NSArray *)monthlyPrices:(NSString *)tickerSymbol
 {
-    if ([CPDTickerSymbolAAPL isEqualToString:[tickerSymbol uppercaseString]] == YES)
+    /*if ([FlowVsTime isEqualToString:[tickerSymbol uppercaseString]] == YES)
     {
         return [self monthlyAaplPrices];
     }
@@ -142,7 +142,7 @@
     else if ([CPDTickerSymbolMSFT isEqualToString:[tickerSymbol uppercaseString]] == YES)
     {
         return [self monthlyMsftPrices];
-    }
+    }*/
     return [NSArray array];
 }
 

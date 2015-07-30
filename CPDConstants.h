@@ -15,8 +15,8 @@ extern NSString * const CPDThemeNamePlainWhite;
 extern NSString * const CPDThemeNameSlate;
 extern NSString * const CPDThemeNameStocks;
 
-extern NSString * const CPDTickerSymbolAAPL;
-extern NSString * const CPDTickerSymbolGOOG;
-extern NSString * const CPDTickerSymbolMSFT;
+extern NSString * const FlowVsTime;
+extern NSString * const VolumeVsTime;
+extern NSString * const FlowVsVolume;
 
 @end

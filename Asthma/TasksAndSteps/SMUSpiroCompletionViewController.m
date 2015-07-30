@@ -9,7 +9,6 @@
 #import "SMUSpiroCompletionViewController.h"
 #include <stdlib.h>
 
-
 @interface SMUSpiroCompletionViewController ()
 
 @end
@@ -29,21 +28,24 @@
 #pragma mark - UIViewController lifecycle methods
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self initPlot];
+    //[self initPlot:FlowVsTime];
 }
 
 #pragma mark - Chart behavior
--(void)initPlot {
+-(void)initPlot:(NSString *)plotIdentifier {
     [self configureHost];
     [self configureGraph];
-    [self configurePlots];
+    [self configurePlots:plotIdentifier];
     [self configureAxes];
 }
 
 -(void)configureHost {
-    self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:self.view.bounds];
+    //self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:self.view.bounds];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
+    [cell setBounds:CGRectMake(0, 0, [cell width], 200)];
+    self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:[cell bounds]];
     self.hostView.allowPinchScaling = YES;
-    [self.view addSubview:self.hostView];
+    //[self.view addSubview:self.hostView];
 }
 
 -(void)configureGraph {
@@ -70,32 +72,19 @@
     plotSpace.allowsUserInteraction = YES;
 }
 
--(void)configurePlots {
+-(void)configurePlots:(NSString *)plotIdentifier {
     // 1 - Get graph and plot space
     CPTGraph *graph = self.hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
     // 2 - Create the three plots
     CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
     aaplPlot.dataSource = self;
-    aaplPlot.identifier = CPDTickerSymbolAAPL;
+    aaplPlot.identifier = plotIdentifier;
     CPTColor *aaplColor = [CPTColor redColor];
     [graph addPlot:aaplPlot toPlotSpace:plotSpace];
-    CPTScatterPlot *googPlot = [[CPTScatterPlot alloc] init];
-    googPlot.dataSource = self;
-    googPlot.identifier = CPDTickerSymbolGOOG;
-    CPTColor *googColor = [CPTColor greenColor];
-    //[graph addPlot:googPlot toPlotSpace:plotSpace];
-    CPTScatterPlot *msftPlot = [[CPTScatterPlot alloc] init];
-    msftPlot.dataSource = self;
-    msftPlot.identifier = CPDTickerSymbolMSFT;
-    CPTColor *msftColor = [CPTColor blueColor];
-    //[graph addPlot:msftPlot toPlotSpace:plotSpace];
-    // 3 - Set up plot space
-    //[plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, googPlot, msftPlot, nil]];
     [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
-    //CPTMutablePlotRange *x = [[CPTMutablePlotRange alloc] initWithLocation:[NSDecimal numberWithDouble:1.0f] length:[NSDecimal numberWithDouble:100.0f]];
     plotSpace.xRange = xRange;
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
     [yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
@@ -112,28 +101,6 @@
     aaplSymbol.lineStyle = aaplSymbolLineStyle;
     aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
     aaplPlot.plotSymbol = aaplSymbol;
-    CPTMutableLineStyle *googLineStyle = [googPlot.dataLineStyle mutableCopy];
-    googLineStyle.lineWidth = 1.0;
-    googLineStyle.lineColor = googColor;
-    googPlot.dataLineStyle = googLineStyle;
-    CPTMutableLineStyle *googSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-    googSymbolLineStyle.lineColor = googColor;
-    CPTPlotSymbol *googSymbol = [CPTPlotSymbol starPlotSymbol];
-    googSymbol.fill = [CPTFill fillWithColor:googColor];
-    googSymbol.lineStyle = googSymbolLineStyle;
-    googSymbol.size = CGSizeMake(6.0f, 6.0f);
-    googPlot.plotSymbol = googSymbol;
-    CPTMutableLineStyle *msftLineStyle = [msftPlot.dataLineStyle mutableCopy];
-    msftLineStyle.lineWidth = 2.0;
-    msftLineStyle.lineColor = msftColor;
-    msftPlot.dataLineStyle = msftLineStyle;
-    CPTMutableLineStyle *msftSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-    msftSymbolLineStyle.lineColor = msftColor;
-    CPTPlotSymbol *msftSymbol = [CPTPlotSymbol diamondPlotSymbol];
-    msftSymbol.fill = [CPTFill fillWithColor:msftColor];
-    msftSymbol.lineStyle = msftSymbolLineStyle;
-    msftSymbol.size = CGSizeMake(6.0f, 6.0f);
-    msftPlot.plotSymbol = msftSymbol;
 }
 
 -(void)configureAxes {
@@ -239,34 +206,89 @@
     //NSInteger valueCount = [[[CPDStockPriceStore sharedInstance] datesInMonth] count];
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
-            
+            if([plot.identifier isEqual:FlowVsVolume])
+            {
+                return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"] objectAtIndex:index];
+            }
             return [NSNumber numberWithUnsignedInteger:index];
-            //return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"] objectAtIndex:index];
             break;
             
         case CPTScatterPlotFieldY:
-            if ([plot.identifier isEqual:CPDTickerSymbolAAPL] == YES) {
+            if ([plot.identifier isEqual:FlowVsTime] == YES || [plot.identifier isEqual:FlowVsVolume] == YES) {
                 
-                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"];
+                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:FlowVsTime];
                 
                 // NSString -> NSDecimalNumber
                 float valueForGraph = [[curve objectAtIndex:index] floatValue];
-                int r = arc4random_uniform(2);
-                
-                //float valueForGraph = (r%2==0 ? 5.0f : 4.0f);
                 
                 NSDecimalNumber *dec = [NSDecimalNumber numberWithFloat:valueForGraph*100.0];
                 NSLog(@"%@",dec);
                 return dec;
                 //return [[[CPDStockPriceStore sharedInstance] monthlyPrices:CPDTickerSymbolAAPL] objectAtIndex:index];
-            } else if ([plot.identifier isEqual:CPDTickerSymbolGOOG] == YES) {
-                return [[[CPDStockPriceStore sharedInstance] monthlyPrices:CPDTickerSymbolGOOG] objectAtIndex:index];
-            } else if ([plot.identifier isEqual:CPDTickerSymbolMSFT] == YES) {
-                return [[[CPDStockPriceStore sharedInstance] monthlyPrices:CPDTickerSymbolMSFT] objectAtIndex:index];
+            } else if ([plot.identifier isEqual:VolumeVsTime] == YES) {
+                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:VolumeVsTime];
+                
+                // NSString -> NSDecimalNumber
+                float valueForGraph = [[curve objectAtIndex:index] floatValue];
+                
+                NSDecimalNumber *dec = [NSDecimalNumber numberWithFloat:valueForGraph*100.0];
+                NSLog(@"%@",dec);
+                return dec;
             }
             break;
     }
     return [NSDecimalNumber zero];
+}
+
+# pragma mark - UITableView methods
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    [tableView setRowHeight:200.0]; // this is not the best place to put this
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        CGRect frame = CGRectMake(0, 0, 160, 50);
+        UILabel *label = [[UILabel alloc] initWithFrame:frame];
+        UIView *graphView = [[UIView alloc] initWithFrame:frame];
+        int r = arc4random_uniform(100);
+        if(r%2==0)
+        {
+            [graphView setBackgroundColor:[UIColor redColor]];
+        }
+        else
+        {
+            [graphView setBackgroundColor:[UIColor blackColor]];
+        }
+        if(indexPath.row == 0)
+        {
+            [self initPlot:FlowVsTime];
+        }
+        else if(indexPath.row == 1)
+        {
+            [self initPlot:VolumeVsTime];
+        }
+        else if(indexPath.row == 2)
+        {
+            [self initPlot:FlowVsVolume];
+        }
+        
+        [cell.contentView addSubview:self.hostView];
+        
+    }
+    
+    return cell;
 }
 
 /*

@@ -274,14 +274,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Third View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pnw-hF-PnT">
-                                <rect key="frame" x="23" y="28" width="80" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bE8-8u-xIB">
+                                <rect key="frame" x="16" y="0.0" width="288" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="LJE-f0-yKV" id="1sl-c8-z9D"/>
+                                    <outlet property="delegate" destination="LJE-f0-yKV" id="2bH-YN-l0M"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bE8-8u-xIB" firstAttribute="leading" secondItem="TfF-IS-fKe" secondAttribute="leadingMargin" id="IJQ-3M-5Wb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bE8-8u-xIB" secondAttribute="trailing" id="Xsx-td-mxg"/>
+                            <constraint firstItem="zNv-hm-YcO" firstAttribute="top" secondItem="bE8-8u-xIB" secondAttribute="bottom" id="jAf-Wm-U7q"/>
+                            <constraint firstItem="bE8-8u-xIB" firstAttribute="top" secondItem="TfF-IS-fKe" secondAttribute="topMargin" id="vjX-Nm-IBJ"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fx-Q4-ZeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
