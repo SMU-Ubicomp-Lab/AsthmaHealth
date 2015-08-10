@@ -274,8 +274,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AxP-L8-9no">
+                                <rect key="frame" x="143" y="528" width="34" height="30"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="SaveButtonPressed:" destination="LJE-f0-yKV" eventType="touchUpInside" id="QUT-je-0HN"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bE8-8u-xIB">
-                                <rect key="frame" x="16" y="0.0" width="288" height="568"/>
+                                <rect key="frame" x="16" y="20" width="288" height="498"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="LJE-f0-yKV" id="1sl-c8-z9D"/>
@@ -285,10 +294,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bE8-8u-xIB" firstAttribute="leading" secondItem="TfF-IS-fKe" secondAttribute="leadingMargin" id="IJQ-3M-5Wb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="bE8-8u-xIB" secondAttribute="trailing" id="Xsx-td-mxg"/>
-                            <constraint firstItem="zNv-hm-YcO" firstAttribute="top" secondItem="bE8-8u-xIB" secondAttribute="bottom" id="jAf-Wm-U7q"/>
-                            <constraint firstItem="bE8-8u-xIB" firstAttribute="top" secondItem="TfF-IS-fKe" secondAttribute="topMargin" id="vjX-Nm-IBJ"/>
+                            <constraint firstItem="bE8-8u-xIB" firstAttribute="trailing" secondItem="TfF-IS-fKe" secondAttribute="trailingMargin" id="DGy-9d-yTq"/>
+                            <constraint firstAttribute="centerX" secondItem="AxP-L8-9no" secondAttribute="centerX" id="OMu-lL-VE0"/>
+                            <constraint firstItem="bE8-8u-xIB" firstAttribute="top" secondItem="7vv-dk-rPC" secondAttribute="bottom" id="Wlf-FW-QMb"/>
+                            <constraint firstItem="zNv-hm-YcO" firstAttribute="top" secondItem="AxP-L8-9no" secondAttribute="bottom" constant="10" id="ecw-em-vj3"/>
+                            <constraint firstItem="AxP-L8-9no" firstAttribute="top" secondItem="bE8-8u-xIB" secondAttribute="bottom" constant="10" id="gi7-vF-yIH"/>
+                            <constraint firstItem="bE8-8u-xIB" firstAttribute="leading" secondItem="TfF-IS-fKe" secondAttribute="leadingMargin" id="tSX-Am-gqu"/>
                         </constraints>
                     </view>
                 </viewController>

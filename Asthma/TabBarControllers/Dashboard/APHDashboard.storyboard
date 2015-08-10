@@ -1434,8 +1434,8 @@
                                                     <size key="customSize" width="371" height="54"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="aFr-VD-phn"/>
                                                             <exclude reference="9GC-y1-rbd"/>
+                                                            <exclude reference="aFr-VD-phn"/>
                                                         </mask>
                                                     </variation>
                                                     <connections>
