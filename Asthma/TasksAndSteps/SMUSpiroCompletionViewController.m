@@ -8,9 +8,10 @@
 
 #import "SMUSpiroCompletionViewController.h"
 #include <stdlib.h>
+@import HealthKit;
 
 @interface SMUSpiroCompletionViewController ()
-
+@property (strong, nonatomic) HKHealthStore *healthStore;
 @end
 
 float const kCellHeight = 300.0;
@@ -21,6 +22,7 @@ NSString * const fontName = @"Helvetica Neue";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.healthStore = [[HKHealthStore alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -360,6 +362,106 @@ NSString * const fontName = @"Helvetica Neue";
     }
     
     return cell;
+}
+
+# pragma mark - Save to Healthkit
+
+
+- (IBAction)SaveButtonPressed:(id)sender {
+    // "Share" (read/write) spirometry measurements (FVC, FEV1, PEF)
+    NSLog(@" Save Button pressed");
+    NSSet *spirometryObjectTypes = [NSSet setWithObjects:
+                                    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity],
+                                    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedExpiratoryVolume1],
+                                    [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeakExpiratoryFlowRate],
+                                    nil];
+    
+    NSLog(@"Going to request access");
+    
+    // Request access
+    [self.healthStore requestAuthorizationToShareTypes:spirometryObjectTypes
+                                             readTypes:spirometryObjectTypes
+                                            completion:^(BOOL success, NSError *error) {
+                                                
+                                                if(success == YES)
+                                                {
+                                                    NSLog(@"Authorization success");
+                                                    
+                                                    NSLog(@"Access requested");
+                                                    
+                                                    // prepare values to store (FVC, FEV1, PEF)
+                                                    float fvc = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"FVCInLiters"] floatValue];
+                                                    float fev1 = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"FEVOneInLiters"] floatValue];
+                                                    float pef = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"PeakFlowInLitersPerSecond"] floatValue];
+                                                    NSDate *now = [NSDate date];
+                                                    
+                                                    HKUnit *literUnit = [HKUnit literUnit];
+                                                    HKUnit *literPerSecondUnit = [HKUnit unitFromString:@"L/s"];
+                                                    
+                                                    HKQuantity *fvcQuantity = [HKQuantity quantityWithUnit:literUnit doubleValue:fvc];
+                                                    HKQuantity *fev1Quantity = [HKQuantity quantityWithUnit:literUnit doubleValue:fev1];
+                                                    HKQuantity *pefQuantity = [HKQuantity quantityWithUnit:literPerSecondUnit doubleValue:pef];
+                                                    
+                                                    HKQuantityType *fvcType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedVitalCapacity];
+                                                    HKQuantityType *fev1Type = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierForcedExpiratoryVolume1];
+                                                    HKQuantityType *pefType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierPeakExpiratoryFlowRate];
+                                                    
+                                                    HKQuantitySample *fvcSample = [HKQuantitySample quantitySampleWithType:fvcType quantity:fvcQuantity startDate:now endDate:now];
+                                                    HKQuantitySample *fev1Sample = [HKQuantitySample quantitySampleWithType:fev1Type quantity:fev1Quantity startDate:now endDate:now];
+                                                    HKQuantitySample *pefSample = [HKQuantitySample quantitySampleWithType:pefType quantity:pefQuantity startDate:now endDate:now];
+                                                    
+                                                    NSLog(@"Will attempt to store");
+                                                    
+                                                    [self.healthStore saveObject:fvcSample withCompletion:^(BOOL success, NSError *error) {
+                                                        if(success == YES)
+                                                            NSLog(@"FVC stored");
+                                                        else
+                                                            NSLog(@"Error storing FVC: %@", error);
+                                                    }];
+                                                    [self.healthStore saveObject:fev1Sample withCompletion:^(BOOL success, NSError *error) {
+                                                        if(success == YES)
+                                                            NSLog(@"FEV1 stored");
+                                                        else
+                                                            NSLog(@"Error storing FEV1: %@", error);
+                                                    }];
+                                                    [self.healthStore saveObject:pefSample withCompletion:^(BOOL success, NSError *error) {
+                                                        if(success == YES)
+                                                            NSLog(@"PEF stored");
+                                                        else
+                                                            NSLog(@"Error storing PEF: %@", error);
+                                                    }];
+                                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test Finished"
+                                                                                                    message:@"The data has been stored and this test is now over. You will now be redirected back to the dashboard."
+                                                                                                   delegate:self
+                                                                                          cancelButtonTitle:@"OK"
+                                                                                          otherButtonTitles:nil];
+                                                    [alert show];
+                                                }
+                                                else
+                                                {
+                                                    NSLog(@"Authorization failed");
+                                                    NSLog(@"%@",error);
+                                                }
+                                                
+                                            }];
+    
+    
+    
+    
+    
+}
+
+# pragma mark - UIAlertView Delegate Methods
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    if([title isEqualToString:@"OK"])
+    {
+        NSLog(@"OK Button Pressed");
+        [self.delegate stepViewController:self didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionForward]; // go back to dashboard
+    }
 }
 
 /*
