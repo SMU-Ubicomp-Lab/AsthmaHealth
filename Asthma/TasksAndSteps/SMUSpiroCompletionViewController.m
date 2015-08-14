@@ -21,7 +21,6 @@ NSString * const fontName = @"Helvetica Neue";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.healthStore = [[HKHealthStore alloc] init];
 }
 
@@ -33,7 +32,6 @@ NSString * const fontName = @"Helvetica Neue";
 #pragma mark - UIViewController lifecycle methods
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //[self initPlot:FlowVsTime];
 }
 
 #pragma mark - Chart behavior
@@ -45,21 +43,20 @@ NSString * const fontName = @"Helvetica Neue";
 }
 
 -(void)configureHost {
-    //self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:self.view.bounds];
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
     [cell setBounds:CGRectMake(0, 0, [cell width], kCellHeight)];
     self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:[cell bounds]];
     self.hostView.allowPinchScaling = YES;
-    //[self.view addSubview:self.hostView];
 }
 
 -(void)configureGraph:(NSString *)plotIdentifier {
-    // 1 - Create the graph
+    // Create the graph
     CPTGraph *graph = [[CPTXYGraph alloc] initWithFrame:self.hostView.bounds];
     [graph applyTheme:[CPTTheme themeNamed:kCPTSlateTheme]];
     graph.plotAreaFrame.borderLineStyle = nil;
     self.hostView.hostedGraph = graph;
-    // 2 - Set graph title
+    
+    // Set graph title
     if([plotIdentifier isEqualToString:FlowVsVolume])
     {
         graph.title = @"Flow Vs Volume";
@@ -76,7 +73,8 @@ NSString * const fontName = @"Helvetica Neue";
     {
         graph.title = @"Graph Title";
     }
-    // 3 - Create and set text style
+    
+    // Create and set text style
     CPTMutableTextStyle *titleStyle = [CPTMutableTextStyle textStyle];
     titleStyle.color = [CPTColor whiteColor];
     titleStyle.fontName = fontName;
@@ -84,30 +82,31 @@ NSString * const fontName = @"Helvetica Neue";
     graph.titleTextStyle = titleStyle;
     graph.titlePlotAreaFrameAnchor = CPTRectAnchorTop;
     graph.titleDisplacement = CGPointMake(0.0f, 10.0f);
-    // 4 - Set padding for plot area
+    
+    // Set padding for plot area
     [graph.plotAreaFrame setPaddingLeft:30.0f];
     [graph.plotAreaFrame setPaddingBottom:30.0f];
-    // 5 - Enable user interactions for plot space
+    
+    // Enable user interactions for plot space
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
     plotSpace.allowsUserInteraction = YES;
 }
 
 -(void)configurePlots:(NSString *)plotIdentifier {
-    // 1 - Get graph and plot space
+    // Get graph and plot space
     CPTGraph *graph = self.hostView.hostedGraph;
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) graph.defaultPlotSpace;
-    // 2 - Create the three plots
-    CPTScatterPlot *aaplPlot = [[CPTScatterPlot alloc] init];
-    aaplPlot.dataSource = self;
-    aaplPlot.identifier = plotIdentifier;
-    CPTColor *aaplColor = [CPTColor redColor];
-    [graph addPlot:aaplPlot toPlotSpace:plotSpace];
-    [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:aaplPlot, nil]];
+    
+    // Create the ploy
+    CPTScatterPlot *spiroPlot = [[CPTScatterPlot alloc] init];
+    spiroPlot.dataSource = self;
+    spiroPlot.identifier = plotIdentifier;
+    CPTColor *spiroColor = [CPTColor redColor];
+    [graph addPlot:spiroPlot toPlotSpace:plotSpace];
+    [plotSpace scaleToFitPlots:[NSArray arrayWithObjects:spiroPlot, nil]];
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     [xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.1f)];
     plotSpace.xRange = xRange;
-    //CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
-    //[yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.2f)];
     CPTMutablePlotRange *yRange;
     if([plotIdentifier isEqualToString:FlowVsVolume])
     {
@@ -129,22 +128,23 @@ NSString * const fontName = @"Helvetica Neue";
     }
     
     plotSpace.yRange = yRange;
-    // 4 - Create styles and symbols
-    CPTMutableLineStyle *aaplLineStyle = [aaplPlot.dataLineStyle mutableCopy];
-    aaplLineStyle.lineWidth = 2.5;
-    aaplLineStyle.lineColor = aaplColor;
-    aaplPlot.dataLineStyle = aaplLineStyle;
-    CPTMutableLineStyle *aaplSymbolLineStyle = [CPTMutableLineStyle lineStyle];
-    aaplSymbolLineStyle.lineColor = aaplColor;
-    CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-    aaplSymbol.fill = [CPTFill fillWithColor:aaplColor];
-    aaplSymbol.lineStyle = aaplSymbolLineStyle;
-    aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
-    aaplPlot.plotSymbol = aaplSymbol;
+    
+    // Create styles and symbols
+    CPTMutableLineStyle *spiroLineStyle = [spiroPlot.dataLineStyle mutableCopy];
+    spiroLineStyle.lineWidth = 2.5;
+    spiroLineStyle.lineColor = spiroColor;
+    spiroPlot.dataLineStyle = spiroLineStyle;
+    CPTMutableLineStyle *spiroSymbolLineStyle = [CPTMutableLineStyle lineStyle];
+    spiroSymbolLineStyle.lineColor = spiroColor;
+    CPTPlotSymbol *spiroSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    spiroSymbol.fill = [CPTFill fillWithColor:spiroColor];
+    spiroSymbol.lineStyle = spiroSymbolLineStyle;
+    spiroSymbol.size = CGSizeMake(6.0f, 6.0f);
+    spiroPlot.plotSymbol = spiroSymbol;
 }
 
 -(void)configureAxes:(NSString *)plotIdentifier {
-    // 1 - Create styles
+    // Create style
     CPTMutableTextStyle *axisTitleStyle = [CPTMutableTextStyle textStyle];
     axisTitleStyle.color = [CPTColor whiteColor];
     axisTitleStyle.fontName = fontName;
@@ -240,7 +240,7 @@ NSString * const fontName = @"Helvetica Neue";
     y.tickDirection = CPTSignPositive;
     NSInteger majorIncrement = 1;
     NSInteger minorIncrement = 100;
-    CGFloat yMax = 1000.0f;  // should determine dynamically based on max price
+    CGFloat yMax = 1000.0f;  // should determine dynamically based on maximum value
     NSMutableSet *yLabels = [NSMutableSet set];
     NSMutableSet *yMajorLocations = [NSMutableSet set];
     NSMutableSet *yMinorLocations = [NSMutableSet set];
@@ -254,7 +254,7 @@ NSString * const fontName = @"Helvetica Neue";
             label.offset = -y.majorTickLength - y.labelOffset-10; // -10 for extra cushion room between label and y-axis
             if (label) {
                 [yLabels addObject:label];
-                //NSLog(@"added label at %f with offset %d", j, label.offset);
+
             }
             [yMajorLocations addObject:[NSDecimalNumber decimalNumberWithDecimal:location]];
         } else {
@@ -276,7 +276,6 @@ NSString * const fontName = @"Helvetica Neue";
 }
 
 -(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
-    //NSInteger valueCount = [[[CPDStockPriceStore sharedInstance] datesInMonth] count];
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
             if([plot.identifier isEqual:FlowVsVolume])
@@ -291,13 +290,13 @@ NSString * const fontName = @"Helvetica Neue";
                 
                 NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:FlowVsTime];
                 
-                // NSString -> NSDecimalNumber
+                // NSString to NSDecimalNumber
                 float valueForGraph = [[curve objectAtIndex:index] floatValue];
                 
                 NSDecimalNumber *dec = [NSDecimalNumber numberWithFloat:valueForGraph*100.0];
                 NSLog(@"%@",dec);
                 return dec;
-                //return [[[CPDStockPriceStore sharedInstance] monthlyPrices:CPDTickerSymbolAAPL] objectAtIndex:index];
+
             } else if ([plot.identifier isEqual:VolumeVsTime] == YES) {
                 NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:VolumeVsTime];
                 
