@@ -83,6 +83,7 @@
 		A45BB9141B6292F500A2FC04 /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A45BB9111B6292F500A2FC04 /* RingBuffer.mm */; };
 		A45BB9151B6292F500A2FC04 /* VortexWhistleRed.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A45BB9121B6292F500A2FC04 /* VortexWhistleRed.m4a */; };
 		A4C33BF11B7E353C00733E5E /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A42DDB891B5D4B4900703C98 /* libCorePlot-CocoaTouch.a */; };
+		A4C33D8C1B7E4F8700733E5E /* GraphMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = A4C33D8B1B7E4F8700733E5E /* GraphMaker.m */; };
 		A4ED74261B4B060300A9302D /* GraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ED74251B4B060300A9302D /* GraphTableViewCell.m */; };
 		A4ED74291B4C273300A9302D /* DanielViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4ED74281B4C273300A9302D /* DanielViewController.m */; };
 		A4FDB9EC1B31D14F00787D7B /* ForcedExpirationTest.json in Resources */ = {isa = PBXBuildFile; fileRef = A4FDB9EB1B31D14F00787D7B /* ForcedExpirationTest.json */; };
@@ -428,6 +429,8 @@
 		A4C33D841B7E40FF00733E5E /* NSCoderExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCoderExtensions.h; sourceTree = "<group>"; };
 		A4C33D851B7E40FF00733E5E /* NSDecimalNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDecimalNumberExtensions.h; sourceTree = "<group>"; };
 		A4C33D861B7E40FF00733E5E /* NSNumberExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSNumberExtensions.h; sourceTree = "<group>"; };
+		A4C33D8A1B7E4F8700733E5E /* GraphMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphMaker.h; sourceTree = "<group>"; };
+		A4C33D8B1B7E4F8700733E5E /* GraphMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphMaker.m; sourceTree = "<group>"; };
 		A4ED74241B4B060300A9302D /* GraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphTableViewCell.h; sourceTree = "<group>"; };
 		A4ED74251B4B060300A9302D /* GraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphTableViewCell.m; sourceTree = "<group>"; };
 		A4ED74271B4C273300A9302D /* DanielViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DanielViewController.h; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 				A4FDBA1D1B32668F00787D7B /* SMUSpiroCompletionViewController.m */,
 				5C72DB0B1B2403740089A3D0 /* SMUSpiroWhistleAnalyzerViewController.h */,
 				5C72DB0C1B2403740089A3D0 /* SMUSpiroWhistleAnalyzerViewController.m */,
+				A4C33D8A1B7E4F8700733E5E /* GraphMaker.h */,
+				A4C33D8B1B7E4F8700733E5E /* GraphMaker.m */,
 			);
 			name = LungFunctionTest;
 			sourceTree = "<group>";
@@ -1230,6 +1235,7 @@
 				5B47BA8E1A211E330080F8DC /* APHAirQualityCollectionViewCell.m in Sources */,
 				5C72DB101B2403740089A3D0 /* SMUSpiroContainerViewController.m in Sources */,
 				A40A89EC1B39A4E7007BBBA5 /* FlowVolumeDataAnalyzer.m in Sources */,
+				A4C33D8C1B7E4F8700733E5E /* GraphMaker.m in Sources */,
 				A4FDBA1E1B32668F00787D7B /* SMUSpiroCompletionViewController.m in Sources */,
 				6C6995C61A84236A001C557E /* APHCalendarCollectionViewCell.m in Sources */,
 				5B47BA941A2123250080F8DC /* APHDashboardAirQualityTableViewCell.m in Sources */,
