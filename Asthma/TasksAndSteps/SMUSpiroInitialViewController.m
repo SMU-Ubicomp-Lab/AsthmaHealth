@@ -29,11 +29,11 @@
 @end
 
 @implementation SMUSpiroInitialViewController
-- (IBAction)nextPressed:(id)sender {
+- (IBAction)nextPressed:(id) __unused sender {
     [self.delegate stepViewController:self didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionForward];
     
 }
-- (IBAction)testControlButtonPressed:(id)sender {
+- (IBAction)testControlButtonPressed:(id) __unused sender {
     if(testStarted == YES)
     {
         // cancel effort
@@ -139,7 +139,7 @@
     
 }
 
--(void)didUpdateFlow:(float)flow andVolume:(float)volume{
+-(void)didUpdateFlow:(float)flow andVolume:(float) __unused volume{
     // A calibrated flow measurement that will come back dynamically and some time after the flow is detected
     // flow and volume are just placeholders right now
     // the value of "flow" will change, but it is not converted to an actual flow rate yet
