@@ -15,7 +15,26 @@
 @property (strong, nonatomic) HKHealthStore *healthStore;
 @end
 
-float const kCellHeight = 300.0;
+// Table View Cell
+float const kCellHeight = 300.0f;
+NSString * const kHostCellIdentifier = @"";
+NSString * const kDefaultCellIdentifier = @"Cell";
+
+// Keys for values in spiro analysis results array
+NSString * const kVolumeCurveKey = @"VolumeCurveInLiters";
+NSString * const kFVCKey = @"FVCInLiters";
+NSString * const kFEVOneKey = @"FEVOneInLiters";
+NSString * const kPkFlowKey = @"PeakFlowInLitersPerSecond";
+
+// Test Finished Alert
+NSString * const kFinishedAlertTitle = @"Test Finished";
+NSString * const kFinishedAlertMessage = @"The data has been stored and this test is now over. You will now be redirected back to the dashboard.";
+NSString * const kButtonTitle = @"OK";
+
+
+//float const kGraphFrameWidth = 160.0f;
+//float const kGraphFrameHeight = 50.0f;
+
 
 @implementation SMUSpiroCompletionViewController
 
@@ -42,7 +61,7 @@ float const kCellHeight = 300.0;
 }
 
 -(void)configureHost {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kHostCellIdentifier];
     [cell setBounds:CGRectMake(0, 0, [cell width], kCellHeight)];
     self.hostView = [(CPTGraphHostingView *) [CPTGraphHostingView alloc] initWithFrame:[cell bounds]];
     self.hostView.allowPinchScaling = YES;
@@ -55,51 +74,41 @@ float const kCellHeight = 300.0;
     spiroPlot.identifier = plotIdentifier;
     
     self.hostView.hostedGraph = [GraphMaker getGraph:self.hostView.bounds withIdentifer:plotIdentifier withPlot:spiroPlot];
-    
-    //spiroPlot.dataSource = self;
 
 }
 
 
 #pragma mark - CPTPlotDataSource methods
--(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)__unused plot {
-    return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"] count];
-    //return 40;
+-(NSUInteger)numberOfRecordsForPlot:(CPTPlot *) __unused plot {
+    return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:kVolumeCurveKey] count];
+    
     
 }
 
 -(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
+    float valueForGraph = 0.0f;
+    NSArray *curve;
     switch (fieldEnum) {
         case CPTScatterPlotFieldX:
             if([plot.identifier isEqual:FlowVsVolume])
             {
-                return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"VolumeCurveInLiters"] objectAtIndex:index];
+                return [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:kVolumeCurveKey] objectAtIndex:index];
             }
             return [NSNumber numberWithUnsignedInteger:index];
             break;
             
         case CPTScatterPlotFieldY:
+            
             if ([plot.identifier isEqual:FlowVsTime] == YES || [plot.identifier isEqual:FlowVsVolume] == YES) {
-                
-                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:FlowVsTime];
-                
-                // NSString to NSDecimalNumber
-                float valueForGraph = [[curve objectAtIndex:index] floatValue];
-                
-                NSDecimalNumber *dec = [NSDecimalNumber numberWithFloat:valueForGraph*100.0];
-                NSLog(@"%@",dec);
-                return dec;
-
+                curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:FlowVsTime];
             } else if ([plot.identifier isEqual:VolumeVsTime] == YES) {
-                NSArray *curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:VolumeVsTime];
-                
-                // NSString -> NSDecimalNumber
-                float valueForGraph = [[curve objectAtIndex:index] floatValue];
-                
-                NSDecimalNumber *dec = [NSDecimalNumber numberWithFloat:valueForGraph*100.0];
-                NSLog(@"%@",dec);
-                return dec;
+                curve = [[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:VolumeVsTime];
             }
+
+            valueForGraph = [[curve objectAtIndex:index] floatValue];
+            
+            NSDecimalNumber *dec = [[NSDecimalNumber alloc] initWithFloat:valueForGraph*100.0]; // Multiplied by 100 so a whole number will be displayed on the graph
+            return dec;
             break;
     }
     return [NSDecimalNumber zero];
@@ -112,20 +121,18 @@ float const kCellHeight = 300.0;
     [tableView setRowHeight:kCellHeight]; // this is not the best place to put this
     return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(NSInteger)tableView:(UITableView *) __unused tableView numberOfRowsInSection:(NSInteger) __unused section
 {
     return 3;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDefaultCellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDefaultCellIdentifier];
         
-        CGRect frame = CGRectMake(0, 0, 160, 50);
-        UIView *graphView = [[UIView alloc] initWithFrame:frame];
+        //CGRect frame = CGRectMake(0, 0, kGraphFrameWidth, kGraphFrameHeight);
+        //UIView *graphView = [[UIView alloc] initWithFrame:frame];
         
         if(indexPath.row == 0)
         {
@@ -150,7 +157,7 @@ float const kCellHeight = 300.0;
 # pragma mark - Save to Healthkit
 
 
-- (IBAction)SaveButtonPressed:(id)sender {
+- (IBAction)SaveButtonPressed:(id) __unused sender {
     // "Share" (read/write) spirometry measurements (FVC, FEV1, PEF)
     NSLog(@" Save Button pressed");
     NSSet *spirometryObjectTypes = [NSSet setWithObjects:
@@ -173,9 +180,9 @@ float const kCellHeight = 300.0;
                                                     NSLog(@"Access requested");
                                                     
                                                     // prepare values to store (FVC, FEV1, PEF)
-                                                    float fvc = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"FVCInLiters"] floatValue];
-                                                    float fev1 = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"FEVOneInLiters"] floatValue];
-                                                    float pef = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:@"PeakFlowInLitersPerSecond"] floatValue];
+                                                    float fvc = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:kFVCKey] floatValue];
+                                                    float fev1 = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:kFEVOneKey] floatValue];
+                                                    float pef = [[[[CPDStockPriceStore sharedInstance] storedResults] valueForKey:kPkFlowKey] floatValue];
                                                     NSDate *now = [NSDate date];
                                                     
                                                     HKUnit *literUnit = [HKUnit literUnit];
@@ -213,10 +220,9 @@ float const kCellHeight = 300.0;
                                                         else
                                                             NSLog(@"Error storing PEF: %@", error);
                                                     }];
-                                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Test Finished"
-                                                                                                    message:@"The data has been stored and this test is now over. You will now be redirected back to the dashboard."
+                                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:kFinishedAlertTitle                                                                                                    message:kFinishedAlertMessage
                                                                                                    delegate:self
-                                                                                          cancelButtonTitle:@"OK"
+                                                                                          cancelButtonTitle:kButtonTitle
                                                                                           otherButtonTitles:nil];
                                                     [alert show];
                                                 }
@@ -240,7 +246,7 @@ float const kCellHeight = 300.0;
 {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
-    if([title isEqualToString:@"OK"])
+    if([title isEqualToString:kButtonTitle])
     {
         NSLog(@"OK Button Pressed");
         [self.delegate stepViewController:self didFinishWithNavigationDirection:ORKStepViewControllerNavigationDirectionForward]; // go back to dashboard
