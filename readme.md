@@ -17,7 +17,7 @@ Building the App
 First, check out the source, including all the dependencies:
 
 ```
-git clone --recurse-submodules https://github.com/redeian/AsthmaHealth.git
+git clone --recurse-submodules https://github.com/SMU-Ubicomp-Lab/AsthmaHealth.git
 ```
 
 ###Building it
